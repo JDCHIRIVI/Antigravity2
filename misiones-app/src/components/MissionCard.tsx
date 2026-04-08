@@ -84,7 +84,7 @@ export default function MissionCard({
       drag={isTop && !exitDirection ? "x" : false}
       dragConstraints={{ left: 0, right: 0 }}
       onDragEnd={isTop && !exitDirection ? handleDragEnd : undefined}
-      className={`absolute top-0 w-full max-w-[448px] h-[726px] bg-base-gray-200 rounded-[48px] shadow-outset-md p-8 flex flex-col items-center gap-4 pb-0 font-sans ${
+      className={`absolute top-0 w-full max-w-[448px] h-full bg-base-gray-200 rounded-[48px] shadow-outset-md p-6 sm:p-8 flex flex-col items-center gap-4 pb-28 font-sans ${
         isTop && !exitDirection ? "cursor-grab active:cursor-grabbing" : ""
       }`}
     >
@@ -166,7 +166,7 @@ export default function MissionCard({
 
       {/* Floating Action Buttons overlapping the bottom */}
       <div
-        className={`absolute -bottom-8 w-full flex justify-center gap-8 px-6 transition-opacity duration-300 ${
+        className={`absolute bottom-6 w-full flex justify-center items-center gap-8 px-6 transition-opacity duration-300 ${
           isTop ? "opacity-100 z-10" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -177,18 +177,18 @@ export default function MissionCard({
             backgroundColor: isTop && !exitDirection ? rejectBg : "#E0E0E0",
             color: isTop && !exitDirection ? rejectColor : "#ef4444",
           }}
-          className="w-16 h-16 flex items-center justify-center rounded-full shadow-outset-md active:scale-95 transition-transform"
+          className="w-20 h-20 flex items-center justify-center rounded-full shadow-outset-md active:scale-95 transition-transform shrink-0"
         >
-          <X size={24} strokeWidth={3} />
+          <X size={32} strokeWidth={3} />
         </motion.button>
         <motion.button
           onClick={() => setExitDirection('down')}
           style={{
             scale: isTop && !exitDirection ? acceptScale : 1,
           }}
-          className="w-20 h-20 flex items-center justify-center bg-brand-accent-green rounded-full shadow-neumorphism-green text-white active:scale-95 transition-transform"
+          className="w-24 h-24 flex items-center justify-center bg-brand-accent-green rounded-full shadow-neumorphism-green text-white active:scale-95 transition-transform shrink-0"
         >
-          <Check size={32} strokeWidth={3} />
+          <Check size={40} strokeWidth={3} />
         </motion.button>
       </div>
     </motion.div>

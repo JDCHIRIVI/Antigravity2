@@ -43,10 +43,10 @@ function App() {
   })).reverse(); // Reverse for DOM stacking
 
   return (
-    <div className={`relative w-full h-screen overflow-hidden flex flex-col items-center p-0`}>
+    <div className={`relative w-full min-h-screen overflow-hidden flex flex-col items-center p-0`}>
       {/* Contenedor condicional para la vista principal de Swipe */}
       <div 
-        className={`relative w-full max-w-[448px] h-[726px] z-10 flex justify-center pt-[23px] pb-[13px] px-[24px] ${activeTab === 'misiones' ? 'block' : 'hidden'}`}
+        className={`relative w-full max-w-[448px] h-[calc(100vh-140px)] max-h-[726px] mt-[10px] z-10 flex justify-center pt-[23px] pb-[13px] px-[24px] ${activeTab === 'misiones' ? 'block' : 'hidden'}`}
       >
         <AnimatePresence mode="popLayout" initial={false}>
           {activeTab === 'misiones' && visibleMissions.map((mission) => (
