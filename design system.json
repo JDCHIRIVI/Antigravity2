@@ -1,0 +1,100 @@
+{
+  "designTokens": {
+    "color": {
+      "base": {
+        "white": { "value": "#FFFFFF" },
+        "gray": {
+          "100": { "value": "#F0F2F5", "comment": "Lightest highlight" },
+          "200": { "value": "#E0E5EC", "comment": "Main background Neumorphism" },
+          "300": { "value": "#B8C2CC", "comment": "Main shadow Neumorphism" },
+          "500": { "value": "#718096", "comment": "Secondary text" },
+          "800": { "value": "#2D3748", "comment": "Primary text" }
+        }
+      },
+      "brand": {
+        "primary": { "value": "{color.base.gray.200}" },
+        "accent": {
+          "green": { "value": "#15803d", "comment": "Solid buttons, checkmarks" },
+          "greenLight": { "value": "#22c55e", "comment": "Progress bars, success text" },
+          "orange": { "value": "#f97316", "comment": "Flames, streak, active tab" },
+          "red": { "value": "#ef4444", "comment": "Timer warning, reject icon" },
+          "blue": { "value": "#3b82f6", "comment": "Active tab variant (Profile)" },
+          "yellow": { "value": "#eab308", "comment": "Stars, coins" }
+        }
+      },
+      "background": {
+        "app": { "value": "{color.base.gray.200}" },
+        "card": { "value": "{color.base.gray.200}" },
+        "buttonSolid": { "value": "{color.brand.accent.green}" }
+      },
+      "text": {
+        "primary": { "value": "{color.base.gray.800}" },
+        "secondary": { "value": "{color.base.gray.500}" },
+        "success": { "value": "{color.brand.accent.greenLight}" },
+        "warning": { "value": "{color.brand.accent.red}" }
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "primary": { "value": "Inter, system-ui, sans-serif" }
+      },
+      "fontSize": {
+        "xs": { "value": "0.75rem", "comment": "12px - Tags, labels" },
+        "sm": { "value": "0.875rem", "comment": "14px - Subtitles, secondary text" },
+        "base": { "value": "1rem", "comment": "16px - Body text, buttons" },
+        "lg": { "value": "1.125rem", "comment": "18px - Card titles" },
+        "xl": { "value": "1.5rem", "comment": "24px - Section headers" },
+        "2xl": { "value": "2rem", "comment": "32px - Main headers" },
+        "5xl": { "value": "4rem", "comment": "64px - Streak numbers" }
+      },
+      "fontWeight": {
+        "regular": { "value": "400" },
+        "medium": { "value": "500" },
+        "bold": { "value": "700" },
+        "black": { "value": "900" }
+      }
+    },
+    "spacing": {
+      "2": { "value": "0.5rem", "comment": "8px - Inside pills/tags" },
+      "3": { "value": "0.75rem", "comment": "12px - Small gaps" },
+      "4": { "value": "1rem", "comment": "16px - Margin between small items" },
+      "6": { "value": "1.5rem", "comment": "24px - Card internal padding" },
+      "8": { "value": "2rem", "comment": "32px - Margin between cards" },
+      "12": { "value": "3rem", "comment": "48px - Section spacing" }
+    },
+    "borderRadius": {
+      "md": { "value": "0.5rem", "comment": "8px - Minor elements" },
+      "lg": { "value": "1rem", "comment": "16px - Small cards, images" },
+      "2xl": { "value": "1.5rem", "comment": "24px - Main mission cards" },
+      "full": { "value": "9999px", "comment": "Pills, circular buttons, avatars" }
+    },
+    "shadow": {
+      "neumorphism": {
+        "outset": {
+          "sm": { 
+            "value": "4px 4px 8px {color.base.gray.300}, -4px -4px 8px {color.base.white}",
+            "comment": "Small buttons, statistics circles"
+          },
+          "md": { 
+            "value": "8px 8px 16px {color.base.gray.300}, -8px -8px 16px {color.base.white}",
+            "comment": "Main cards, large avatar"
+          },
+          "lg": {
+            "value": "12px 12px 24px {color.base.gray.300}, -12px -12px 24px {color.base.white}",
+            "comment": "Central streak circle"
+          }
+        },
+        "inset": {
+          "sm": { 
+            "value": "inset 3px 3px 6px {color.base.gray.300}, inset -3px -3px 6px {color.base.white}",
+            "comment": "Timer track, input fields"
+          },
+          "md": { 
+            "value": "inset 6px 6px 12px {color.base.gray.300}, inset -6px -6px 12px {color.base.white}",
+            "comment": "Navigation bar track, streak outer ring"
+          }
+        }
+      }
+    }
+  }
+}
