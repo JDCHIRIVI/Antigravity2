@@ -4,16 +4,43 @@ import MissionCard from "./components/MissionCard";
 import BottomNavigation from "./components/BottomNavigation";
 import MissionListScreen from "./components/MissionListScreen";
 import ProfileScreen from "./components/ProfileScreen";
+import OnboardingScreen from "./components/OnboardingScreen";
 import { getRandomMissions, type Mission } from "./data/missions";
 
-export type AcceptedMission = Mission & { acceptedAt: number; manuallyFailed?: boolean };
+export type AcceptedMission = Mission & { acceptedAt: number; manuallyFailed?: boolean; cumplida?: boolean };
+
+export type PlayerStats = {
+  completed: number;
+  chaosCoins: number;
+  level: number;
+  streak: number;
+  community: number;
+  rejections: number;
+  lies: number;
+  lastMissionDate: string;
+};
 
 function App() {
+  const [showOnboarding, setShowOnboarding] = useState(() => localStorage.getItem("hasSeenOnboarding") !== "true");
   const [activeTab, setActiveTab] = useState<"misiones" | "list" | "profile">("misiones");
   
   // Logical Functional State
   const [pendingMissions, setPendingMissions] = useState<Mission[]>([]);
   const [acceptedMissions, setAcceptedMissions] = useState<AcceptedMission[]>([]);
+
+  const [stats, setStats] = useState<PlayerStats>(() => {
+    const defaultStats = { completed: 0, chaosCoins: 0, level: 1, streak: 0, community: 14, rejections: 0, lies: 0, lastMissionDate: "" };
+    const saved = localStorage.getItem("playerStats");
+    return saved ? { ...defaultStats, ...JSON.parse(saved) } : defaultStats;
+  });
+
+  const updateStats = (newValues: Partial<PlayerStats>) => {
+    setStats(prev => {
+      const updated = { ...prev, ...newValues };
+      localStorage.setItem("playerStats", JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   useEffect(() => {
     // Fill or refill pool with all 31 elements randomized
@@ -29,12 +56,56 @@ function App() {
 
   const handleReject = () => {
     setPendingMissions(prev => prev.slice(1));
+    updateStats({ rejections: stats.rejections + 1 });
   };
 
   const handleFailMission = (id: number, acceptedAtTime: number) => {
     setAcceptedMissions(prev => prev.map(m => 
       (m.id === id && m.acceptedAt === acceptedAtTime) ? { ...m, manuallyFailed: true } : m
     ));
+  };
+
+  const handleCompleteMission = (id: number, acceptedAtTime: number) => {
+    setAcceptedMissions(prev => prev.map(m => 
+      (m.id === id && m.acceptedAt === acceptedAtTime) ? { ...m, cumplida: true } : m
+    ));
+
+    const targetMission = acceptedMissions.find(m => m.id === id && m.acceptedAt === acceptedAtTime);
+    if (!targetMission) return;
+
+    const todayDate = new Date().toDateString();
+    let newStreak = stats.streak;
+
+    if (stats.lastMissionDate !== todayDate) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      
+      if (stats.lastMissionDate === yesterday.toDateString()) {
+        newStreak += 1;
+      } else {
+        newStreak = 1;
+      }
+    }
+
+    const newCompleted = stats.completed + 1;
+    const newLevel = Math.floor(newCompleted / 5) + 1; // Subir de nivel cada 5 misiones
+
+    updateStats({
+      completed: newCompleted,
+      chaosCoins: stats.chaosCoins + (targetMission.rewards || 50),
+      streak: newStreak,
+      level: newLevel,
+      lastMissionDate: todayDate
+    });
+  };
+
+  const handleLie = () => {
+    updateStats({ lies: stats.lies + 1 });
+  };
+
+  const handleDismissOnboarding = () => {
+    localStorage.setItem("hasSeenOnboarding", "true");
+    setShowOnboarding(false);
   };
 
   const visibleMissions = pendingMissions.slice(0, 3).map((mission, i) => ({
@@ -72,13 +143,20 @@ function App() {
         <MissionListScreen 
           acceptedMissions={acceptedMissions} 
           onFailMission={handleFailMission}
+          onCompleteMission={handleCompleteMission}
+          onLie={handleLie}
         />
       )}
 
       {/* Contenedor de Perfil */}
-      {activeTab === 'profile' && <ProfileScreen />}
+      {activeTab === 'profile' && <ProfileScreen stats={stats} />}
       
       <BottomNavigation activeTab={activeTab} onChangeTab={setActiveTab} />
+
+      {/* Onboarding Overlay */}
+      <AnimatePresence>
+        {showOnboarding && <OnboardingScreen onDismiss={handleDismissOnboarding} />}
+      </AnimatePresence>
     </div>
   );
 }
